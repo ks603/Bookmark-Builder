@@ -15,3 +15,6 @@ function showModal() {
 
 // Modal Event Listener
 modalShow.addEventListener('click', showModal)
+modalClose.addEventListener('click', () => {
+  modal.classList.remove('show-modal')
+})
