@@ -32,6 +32,16 @@ function validate(nameValue, urlValue) {
   return true
 }
 
+// Build Bookmarks DOM
+
+function buildBookmarks() {
+  // Build items
+  bookmarks.forEach((bookmark) => {
+    const { name, url } = bookmark
+    console.log(name, url)
+  })
+}
+
 // Modal Event Listener
 modalShow.addEventListener('click', showModal)
 modalClose.addEventListener('click', () => {
@@ -56,7 +66,7 @@ function fetchBookMarks() {
     ]
     localStorage.setItem('bookmarks', JSON.stringify(bookmarks))
   }
-  console.log(bookmarks)
+  buildBookmarks()
 }
 
 // Handle Data from Form
