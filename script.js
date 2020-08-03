@@ -6,6 +6,8 @@ const websiteNameEl = document.getElementById('website-name')
 const websiteUrlEl = document.getElementById('website-url')
 const bookmarksContainer = document.getElementById('bookmars-container')
 
+let bookmarks = []
+
 // Show Modal, Focus on Input
 
 function showModal() {
@@ -39,6 +41,24 @@ window.addEventListener('click', (e) => {
   e.target === modal ? modal.classList.remove('show-modal') : false
 })
 
+// Fetch Bookmarks
+function fetchBookMarks() {
+  // Get bookmarks from localStorage if available
+  if (localStorage.getItem('bookmarks')) {
+    bookmarks = JSON.parse(localStorage.getItem('bookmarks'))
+  } else {
+    // Create bookamrks array in localStorage
+    bookmarks = [
+      {
+        name: 'Kevin Portfolio',
+        url: 'https://ks603.github.io/Portfolio/',
+      },
+    ]
+    localStorage.setItem('bookmarks', JSON.stringify(bookmarks))
+  }
+  console.log(bookmarks)
+}
+
 // Handle Data from Form
 function storeBookmark(e) {
   e.preventDefault()
@@ -47,11 +67,23 @@ function storeBookmark(e) {
   if (!urlValue.includes('http://', 'https://')) {
     urlValue = `http://${urlValue}`
   }
-  console.log(nameValue, urlValue)
   if (!validate(nameValue, urlValue)) {
     return false
   }
+  const bookmark = {
+    name: nameValue,
+    url: urlValue,
+  }
+  bookmarks.push(bookmark)
+  localStorage.setItem('bookmarks', JSON.stringify(bookmarks))
+  fetchBookMarks()
+  bookmarkForm.reset()
+  websiteNameEl.focus()
 }
 
 // Event listener
 bookmarkForm.addEventListener('submit', storeBookmark)
+
+// On Load, Fetch Bookmarks
+
+fetchBookMarks()
